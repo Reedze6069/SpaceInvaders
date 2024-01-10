@@ -15,16 +15,17 @@ public class CubeController : MonoBehaviour
 
     void Start()
     {
+        // Commenting this out stopped from creating a new UI which fixed it 
         // Create a TextMeshProUGUI component as a child of the cube
-        GameObject textObject = new GameObject("ProjectileText");
-        textObject.transform.SetParent(transform);
-        textObject.transform.localPosition = new Vector3(0f, 1f, 0f);
-        projectileText = textObject.AddComponent<TextMeshProUGUI>();
+        //GameObject textObject = new GameObject("ProjectileText");
+        //textObject.transform.SetParent(transform);
+        //textObject.transform.localPosition = new Vector3(0f, 1f, 0f);
+        //projectileText = textObject.AddComponent<TextMeshProUGUI>();
 
         // Set other properties for TextMeshProUGUI
-        projectileText.fontSize = 16;
-        projectileText.alignment = TextAlignmentOptions.Center;
-        projectileText.color = Color.white;
+        //projectileText.fontSize = 16;
+        //projectileText.alignment = TextAlignmentOptions.Center;
+        //projectileText.color = Color.white;
 
         // Create a TextMeshProUGUI component for lives
         GameObject livesObject = new GameObject("LivesText");
@@ -33,7 +34,7 @@ public class CubeController : MonoBehaviour
         livesText = livesObject.AddComponent<TextMeshProUGUI>();
 
         // Set other properties for TextMeshProUGUI for lives
-        livesText.fontSize = 16;
+        livesText.fontSize = 6;
         livesText.alignment = TextAlignmentOptions.Center;
         livesText.color = Color.white;
 
@@ -87,11 +88,12 @@ public class CubeController : MonoBehaviour
         // Update UI text
         UpdateUIText();
     }
-
+// This Was declaring the name for the UI Text
     void UpdateUIText()
     {
-        //projectileText.text = $"Projectiles: {currentProjectiles}/{maxProjectiles}";
+        projectileText.text = $" {currentProjectiles}/{maxProjectiles}";
         //livesText.text = $"Lives: {currentLives}/{maxLives}";
+        
     }
 
     void UpdateUITextPosition()
