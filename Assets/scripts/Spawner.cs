@@ -7,12 +7,13 @@ public class EnemySpawner : MonoBehaviour
     public float maxSpawnDelay = 5f;
     public Transform[] spawnPoints;
 
+    private float timeElapsed = 0f;
+    private float increaseSpawnRateInterval = 10f; // Increase spawn rate every 10 seconds
+
     void Start()
     {
-        // Check if there are valid spawn points before invoking the SpawnEnemy method
         if (spawnPoints != null && spawnPoints.Length > 0)
         {
-            // Invoke the SpawnEnemy method repeatedly with a random delay between minSpawnDelay and maxSpawnDelay
             InvokeRepeating("SpawnEnemy", 0f, Random.Range(minSpawnDelay, maxSpawnDelay));
         }
         else
@@ -21,15 +22,32 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
+    void Update()
+    {
+        // Increment the time elapsed
+        timeElapsed += Time.deltaTime;
+
+        // Check if it's time to increase spawn rate
+        if (timeElapsed >= increaseSpawnRateInterval)
+        {
+            IncreaseSpawnRate();
+            timeElapsed = 0f; // Reset the timer
+        }
+    }
+
+    void IncreaseSpawnRate()
+    {
+        // Decrease minSpawnDelay and maxSpawnDelay to make enemies spawn faster
+        minSpawnDelay = Mathf.Max(minSpawnDelay - 0.1f, 0.1f);
+        maxSpawnDelay = Mathf.Max(maxSpawnDelay - 0.1f, 0.1f);
+        Debug.Log($"Spawn rate increased. minSpawnDelay: {minSpawnDelay}, maxSpawnDelay: {maxSpawnDelay}");
+    }
+
     void SpawnEnemy()
     {
-        // Check if there are valid spawn points before attempting to access the array
         if (spawnPoints != null && spawnPoints.Length > 0)
         {
-            // Randomly select a spawn point from the array
             Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
-
-            // Instantiate the enemy prefab at the chosen spawn point
             Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
         }
         else
