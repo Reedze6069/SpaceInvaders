@@ -1,11 +1,18 @@
 using System.Collections;
 using UnityEngine;
+using TMPro;
 
 public class Health : MonoBehaviour
 {
     public int points = 1;
     private float invincibilityTime = 0.1f;
     private bool isInvincible = false;
+
+    [SerializeField]
+    private TextMeshProUGUI playerHealthText; // Reference to the TextMeshProUGUI component for player health
+
+    [SerializeField]
+    private TextMeshProUGUI staticSpriteText; // Reference to the TextMeshProUGUI component for static sprite
 
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -14,6 +21,15 @@ public class Health : MonoBehaviour
             points--;
             StartCoroutine(Invincibility());
             Destroy(other.gameObject);
+
+            if (gameObject.CompareTag("Player"))
+            {
+                UpdatePlayerHealthText();
+            }
+            else if (gameObject.CompareTag("StaticSprite"))
+            {
+                UpdateStaticSpriteHealthText();
+            }
         }
 
         if (points <= 0)
@@ -27,6 +43,22 @@ public class Health : MonoBehaviour
             {
                 Destroy(gameObject); // Destroy enemies
             }
+        }
+    }
+
+    void UpdatePlayerHealthText()
+    {
+        if (playerHealthText != null)
+        {
+            playerHealthText.text = "Player Health: " + points.ToString();
+        }
+    }
+
+    void UpdateStaticSpriteHealthText()
+    {
+        if (staticSpriteText != null)
+        {
+            staticSpriteText.text = "Base Health: " + points.ToString();
         }
     }
 

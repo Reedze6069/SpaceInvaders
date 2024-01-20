@@ -192,6 +192,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   points: 3
+  playerHealthText: {fileID: 0}
+  staticSpriteText: {fileID: 0}
 --- !u!1 &4480622771283479109
 GameObject:
   m_ObjectHideFlags: 0
