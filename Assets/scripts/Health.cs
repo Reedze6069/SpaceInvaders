@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class Health : MonoBehaviour
@@ -7,12 +8,20 @@ public class Health : MonoBehaviour
     public int points = 1;
     private float invincibilityTime = 0.1f;
     private bool isInvincible = false;
+    private bool isGameOver = false;
 
     [SerializeField]
-    private TextMeshProUGUI playerHealthText; // Reference to the TextMeshProUGUI component for player health
+    private TextMeshProUGUI playerHealthText;
 
     [SerializeField]
-    private TextMeshProUGUI staticSpriteText; // Reference to the TextMeshProUGUI component for static sprite
+    private TextMeshProUGUI staticSpriteText;
+
+    private Stopwatch startwatch;
+
+    void Start()
+    {
+        startwatch = FindObjectOfType<Stopwatch>();
+    }
 
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -32,16 +41,17 @@ public class Health : MonoBehaviour
             }
         }
 
-        if (points <= 0)
+        if (points <= 0 && !isGameOver)
         {
-            // Check if the object is the player or static sprite
+            isGameOver = true;
+
             if (gameObject.CompareTag("Player") || gameObject.CompareTag("StaticSprite"))
             {
-                StartCoroutine(GameOver());
+                GameOver();
             }
             else
             {
-                Destroy(gameObject); // Destroy enemies
+                Destroy(gameObject);
             }
         }
     }
@@ -69,11 +79,23 @@ public class Health : MonoBehaviour
         isInvincible = false;
     }
 
-    IEnumerator GameOver()
+    public void GameOver()
     {
         Debug.Log("Game Over!");
-        // You can add more game over logic here if needed
-        Time.timeScale = 0f; // Pause the game
-        yield return null;
+
+        if (startwatch != null)
+        {
+            float elapsedTime = startwatch.GetElapsedTime();
+            Debug.Log($"Elapsed Time: {elapsedTime}s");
+
+            PlayerPrefs.SetFloat("ElapsedTime", elapsedTime);
+            StartCoroutine(LoadGameOverSceneDelayed());
+        }
+    }
+
+    IEnumerator LoadGameOverSceneDelayed()
+    {
+        yield return new WaitForSeconds(0.1f);
+        SceneManager.LoadScene("GameOverScene");
     }
 }

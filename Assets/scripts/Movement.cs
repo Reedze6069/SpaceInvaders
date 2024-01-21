@@ -7,26 +7,14 @@ public class CubeController : MonoBehaviour
     public GameObject projectilePrefab;
     public int maxProjectiles = 6;
     private int currentProjectiles;
-
-    // Change the data type to TextMeshProUGUI
     public TextMeshProUGUI projectileText;
     public TextMeshProUGUI livesText;
-    public float yOffset = 0.5f; // Adjust the offset value as needed
+    public float yOffset = 0.5f;
+
+    private Animator animator; // Declare the Animator variable
 
     void Start()
     {
-        // Commenting this out stopped from creating a new UI which fixed it 
-        // Create a TextMeshProUGUI component as a child of the cube
-        //GameObject textObject = new GameObject("ProjectileText");
-        //textObject.transform.SetParent(transform);
-        //textObject.transform.localPosition = new Vector3(0f, 1f, 0f);
-        //projectileText = textObject.AddComponent<TextMeshProUGUI>();
-
-        // Set other properties for TextMeshProUGUI
-        //projectileText.fontSize = 16;
-        //projectileText.alignment = TextAlignmentOptions.Center;
-        //projectileText.color = Color.white;
-
         // Create a TextMeshProUGUI component for lives
         GameObject livesObject = new GameObject("LivesText");
         livesObject.transform.SetParent(transform);
@@ -47,6 +35,9 @@ public class CubeController : MonoBehaviour
 
         // Update the UI text initially
         UpdateUIText();
+
+        // Get the Animator component
+        animator = GetComponent<Animator>();
     }
 
     void Update()
@@ -73,6 +64,9 @@ public class CubeController : MonoBehaviour
     {
         if (currentProjectiles > 0)
         {
+            // Trigger the swipe animation
+            animator.SetTrigger("SwipeTrigger");
+
             Instantiate(projectilePrefab, transform.position + Vector3.up * yOffset, Quaternion.identity);
             currentProjectiles--;
             UpdateUIText();
@@ -88,12 +82,10 @@ public class CubeController : MonoBehaviour
         // Update UI text
         UpdateUIText();
     }
-// This Was declaring the name for the UI Text
+
     void UpdateUIText()
     {
         projectileText.text = $" {currentProjectiles}/{maxProjectiles}";
-        //livesText.text = $"Lives: {currentLives}/{maxLives}";
-        
     }
 
     void UpdateUITextPosition()
@@ -105,7 +97,6 @@ public class CubeController : MonoBehaviour
         livesText.transform.position = livesTextPosition;
     }
 
-    // Method to return a projectile when an enemy is destroyed
     public void ReturnProjectile()
     {
         // Increase the projectile count when an enemy is destroyed
