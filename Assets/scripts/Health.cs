@@ -16,13 +16,6 @@ public class Health : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI staticSpriteText;
 
-    private Stopwatch startwatch;
-
-    void Start()
-    {
-        startwatch = FindObjectOfType<Stopwatch>();
-    }
-
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Projectile") && isInvincible == false)
@@ -47,7 +40,8 @@ public class Health : MonoBehaviour
 
             if (gameObject.CompareTag("Player") || gameObject.CompareTag("StaticSprite"))
             {
-                GameOver();
+                GameManager gameManager = FindObjectOfType<GameManager>();
+                gameManager?.GameOver();
             }
             else
             {
@@ -77,25 +71,5 @@ public class Health : MonoBehaviour
         isInvincible = true;
         yield return new WaitForSeconds(invincibilityTime);
         isInvincible = false;
-    }
-
-    public void GameOver()
-    {
-        Debug.Log("Game Over!");
-
-        if (startwatch != null)
-        {
-            float elapsedTime = startwatch.GetElapsedTime();
-            Debug.Log($"Elapsed Time: {elapsedTime}s");
-
-            PlayerPrefs.SetFloat("ElapsedTime", elapsedTime);
-            StartCoroutine(LoadGameOverSceneDelayed());
-        }
-    }
-
-    IEnumerator LoadGameOverSceneDelayed()
-    {
-        yield return new WaitForSeconds(0.1f);
-        SceneManager.LoadScene("GameOverScene");
     }
 }

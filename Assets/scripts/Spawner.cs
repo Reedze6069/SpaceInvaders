@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnemySpawner : MonoBehaviour
+public class Spawner : MonoBehaviour
 {
     public GameObject enemyPrefab;
     public float minSpawnDelay = 1f;

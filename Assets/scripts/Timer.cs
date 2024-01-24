@@ -2,11 +2,13 @@ using System.Collections;
 using UnityEngine;
 using TMPro;
 
-public class Stopwatch : MonoBehaviour
+public class Timer : MonoBehaviour
 {
     private float elapsedTime = 0f;
     private bool isRunning = false;
     public TextMeshProUGUI stopwatchText;
+
+	public float ElapsedTime => elapsedTime;
 
     void Start()
     {
@@ -40,18 +42,6 @@ public class Stopwatch : MonoBehaviour
         if (health != null && health.points <= 0)
         {
             isRunning = false;
-
-            // Save high score
-            HighScoreManager highScoreManager = FindObjectOfType<HighScoreManager>();
-            if (highScoreManager != null)
-            {
-                float currentHighScore = highScoreManager.LoadHighScore();
-                if (elapsedTime > currentHighScore)
-                {
-                    highScoreManager.SaveHighScore(elapsedTime);
-                    Debug.Log($"New High Score: {elapsedTime}s");
-                }
-            }
 
             Debug.Log($"Stopwatch stopped. Elapsed time: {elapsedTime}s");
         }

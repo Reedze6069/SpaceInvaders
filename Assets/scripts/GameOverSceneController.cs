@@ -15,7 +15,7 @@ public class GameOverSceneController : MonoBehaviour
         // Display the time survived in a TextMeshProUGUI component
         if (timeSurvivedText != null)
         {
-            timeSurvivedText.text = $"Time Survived: {Mathf.RoundToInt(elapsedTime)}s";
+            timeSurvivedText.text = $"Time Survived: {Mathf.FloorToInt(elapsedTime)}s";
         }
         else
         {
@@ -29,7 +29,7 @@ public class GameOverSceneController : MonoBehaviour
             float highScore = highScoreManager.LoadHighScore();
             if (highScoreText != null)
             {
-                highScoreText.text = $"High Score: {Mathf.RoundToInt(highScore)}s";
+                highScoreText.text = $"High Score: {Mathf.FloorToInt(highScore)}s";
             }
             else
             {
