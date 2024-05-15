@@ -2,24 +2,32 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    public float moveSpeed = 2f;
-    public float shiftDistance = 1f;
-    public Transform target; // The target (player cube) that enemies move towards
-    public GameObject cubeController; // Reference to the CubeController script
+    [SerializeField]
+    private float moveSpeed = 2f;
+    [SerializeField]
+    private float shiftDistance = 1f;
+    [SerializeField]
+    private Transform target; // The target (player cube) that enemies move towards
 
-    public float minShootInterval = 2f; // Minimum time between shots
-    public float maxShootInterval = 5f; // Maximum time between shots
+    private GameObject cubeController; // Reference to the CubeController script, not exposed since it's set internally
+
+    [SerializeField]
+    private float minShootInterval = 2f;
+    [SerializeField]
+    private float maxShootInterval = 5f;
     private float shootTimer; // Timer to track when the enemy should shoot
 
-    public GameObject enemyProjectilePrefab; // Reference to the enemy projectile prefab
-    public float yOffset = 0.5f; // Adjust the offset value as needed
+    [SerializeField]
+    private GameObject enemyProjectilePrefab; // Reference to the enemy projectile prefab
+    [SerializeField]
+    private float yOffset = 0.5f;
 
     void Start()
     {
-        // Set the target to the player cube
-        if (cubeController == null)
+        // Attempt to find the player cube if not set
+        if (target == null)
         {
-            cubeController = GameObject.FindGameObjectWithTag("Player");
+            target = GameObject.FindGameObjectWithTag("Player").transform;
         }
 
         // Initialize the shoot timer randomly
@@ -28,55 +36,44 @@ public class EnemyController : MonoBehaviour
 
     void Update()
     {
-        MoveTowardsPlayer();
+        if (target != null)
+        {
+            MoveTowardsPlayer();
+            HandleShooting();
+        }
+    }
 
-        // Update the shoot timer
+    private void MoveTowardsPlayer()
+    {
+        Vector3 directionToPlayer = (target.position - transform.position).normalized;
+        Vector3 shiftedPosition = transform.position + Vector3.right * Mathf.Sin(Time.time * 2f) * shiftDistance;
+        transform.position = Vector3.MoveTowards(transform.position, shiftedPosition, moveSpeed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, target.position, moveSpeed * Time.deltaTime);
+    }
+
+    private void HandleShooting()
+    {
         shootTimer -= Time.deltaTime;
         if (shootTimer <= 0f)
         {
-            // Reset the timer for the next shot
             shootTimer = Random.Range(minShootInterval, maxShootInterval);
-
-            // Call a method to handle shooting
             Shoot();
         }
     }
 
-    void MoveTowardsPlayer()
+    private void Shoot()
     {
-        // Calculate the direction towards the player
-        Vector3 directionToPlayer = (target.position - transform.position).normalized;
-
-        // Calculate a slightly shifted position to create side-to-side movement
-        Vector3 shiftedPosition = transform.position + Vector3.right * Mathf.Sin(Time.time * 2f) * shiftDistance;
-
-        // Move towards the shifted position
-        transform.position = Vector3.MoveTowards(transform.position, shiftedPosition, moveSpeed * Time.deltaTime);
-
-        // Move closer to the player
-        transform.position = Vector3.MoveTowards(transform.position, target.position, moveSpeed * Time.deltaTime);
-    }
-    void Shoot()
-    {
-        // Instantiate an enemy projectile with an offset on the Y-axis
         Vector3 projectilePosition = transform.position + new Vector3(0f, yOffset, 0f);
-        Quaternion rotation = Quaternion.Euler(0, 0, 180f);
-        Instantiate(enemyProjectilePrefab, projectilePosition, rotation);
+        Instantiate(enemyProjectilePrefab, projectilePosition, Quaternion.Euler(0, 0, 180f));
     }
 
     public void DestroyEnemy()
     {
-        // Notify CubeController that an enemy is destroyed
         if (cubeController != null)
         {
             cubeController.GetComponent<CubeController>().EnemyDestroyed();
-
-            // Return a projectile to the player
             cubeController.GetComponent<CubeController>().ReturnProjectile();
         }
-
-        // Handle enemy destruction (e.g., play destruction animation, spawn particles, etc.)
         Destroy(gameObject);
     }
 }
-
