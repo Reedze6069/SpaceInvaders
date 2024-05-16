@@ -3,13 +3,30 @@ using System.Collections;
 
 public class Spawner : MonoBehaviour
 {
-    public GameObject enemyPrefab;
-    public float minSpawnDelay = 1f;
-    public float maxSpawnDelay = 5f;
-    public Transform[] spawnPoints;
+    [SerializeField] private GameObject enemyPrefab;
+    [SerializeField] private float minSpawnDelay = 1f;
+    [SerializeField] private float maxSpawnDelay = 5f;
+    [SerializeField] private Transform[] spawnPoints;
 
-    private float timeElapsed = 0f;
-    private float increaseSpawnRateInterval = 10f; // Increase spawn rate every 10 seconds
+    private float increaseSpawnRateInterval = 10f; // Interval to increase spawn rate
+
+    public GameObject EnemyPrefab
+    {
+        get => enemyPrefab;
+        private set => enemyPrefab = value;
+    }
+
+    public float MinSpawnDelay
+    {
+        get => minSpawnDelay;
+        set => minSpawnDelay = Mathf.Max(0.1f, value); // Ensure spawn delay can't go below 0.1
+    }
+
+    public float MaxSpawnDelay
+    {
+        get => maxSpawnDelay;
+        set => maxSpawnDelay = Mathf.Max(minSpawnDelay, value); // Ensure max is always >= min
+    }
 
     void Start()
     {
@@ -36,10 +53,9 @@ public class Spawner : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(increaseSpawnRateInterval);
-            // Adjust the spawn rates after the specified interval
-            minSpawnDelay = Mathf.Max(minSpawnDelay - 0.1f, 0.1f);
-            maxSpawnDelay = Mathf.Max(maxSpawnDelay - 0.1f, 0.1f);
-            Debug.Log($"Spawn rate increased. minSpawnDelay: {minSpawnDelay}, maxSpawnDelay: {maxSpawnDelay}");
+            MinSpawnDelay -= 0.1f;
+            MaxSpawnDelay -= 0.1f;
+            Debug.Log($"Spawn rate increased. MinSpawnDelay: {MinSpawnDelay}, MaxSpawnDelay: {MaxSpawnDelay}");
         }
     }
 
