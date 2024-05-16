@@ -2,13 +2,28 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    public float speed = 10f;
-    public int damage = 1;
+    [SerializeField] private float speed = 10f;
+    [SerializeField] private int damage = 1;
+
+    private Rigidbody2D rb;
+
+    void Awake()
+    {
+        // Cache the Rigidbody2D component
+        rb = GetComponent<Rigidbody2D>();
+        if (rb == null)
+        {
+            Debug.LogError("Rigidbody2D component not found on the projectile!", this);
+        }
+    }
 
     void Start()
     {
-        // Move the projectile using Rigidbody2D
-        GetComponent<Rigidbody2D>().velocity = transform.up * speed;
+        // Set the initial velocity of the projectile
+        if (rb != null)
+        {
+            rb.velocity = transform.up * speed;
+        }
     }
 
     void OnBecameInvisible()
