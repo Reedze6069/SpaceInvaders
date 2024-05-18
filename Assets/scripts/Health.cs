@@ -1,14 +1,21 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using TMPro;
 
 public class Health : MonoBehaviour
 {
-    public int points = 1;
+    [SerializeField]
+    private int points = 1; // Private field
+
+    // Public property to access points
+    public int Points
+    {
+        get { return points; }
+        private set { points = value; }
+    }
+
     private float invincibilityTime = 0.1f;
     private bool isInvincible = false;
-    private bool isGameOver = false;
 
     [SerializeField]
     private TextMeshProUGUI playerHealthText;
@@ -16,11 +23,14 @@ public class Health : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI staticSpriteText;
 
+    // This method is called when the collider enters a trigger
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Projectile") && isInvincible == false)
+        Debug.Log($"OnTriggerEnter2D called with Collider: {other.name}");
+        if (other.CompareTag("Projectile") && !isInvincible)
         {
-            points--;
+            Points--; // Use the public property
+            Debug.Log($"Projectile hit. Remaining points: {Points}");
             StartCoroutine(Invincibility());
             Destroy(other.gameObject);
 
@@ -32,44 +42,40 @@ public class Health : MonoBehaviour
             {
                 UpdateStaticSpriteHealthText();
             }
-        }
 
-        if (points <= 0 && !isGameOver)
-        {
-            isGameOver = true;
-
-            if (gameObject.CompareTag("Player") || gameObject.CompareTag("StaticSprite"))
-            {
-                GameManager gameManager = FindObjectOfType<GameManager>();
-                gameManager?.GameOver();
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
+            // Notify GameManager to update health
+            GameManager gameManager = FindObjectOfType<GameManager>();
+            gameManager?.UpdateHealth(gameObject, Points);
         }
     }
 
+    // Update the player's health text UI
     void UpdatePlayerHealthText()
     {
         if (playerHealthText != null)
         {
-            playerHealthText.text = "Player Health: " + points.ToString();
+            playerHealthText.text = "Player Health: " + Points;
+            Debug.Log($"Player health updated to: {Points}");
         }
     }
 
+    // Update the static sprite's health text UI
     void UpdateStaticSpriteHealthText()
     {
         if (staticSpriteText != null)
         {
-            staticSpriteText.text = "Base Health: " + points.ToString();
+            staticSpriteText.text = "Base Health: " + Points;
+            Debug.Log($"StaticSprite health updated to: {Points}");
         }
     }
 
+    // Coroutine to handle invincibility after being hit
     IEnumerator Invincibility()
     {
         isInvincible = true;
+        Debug.Log("Invincibility started.");
         yield return new WaitForSeconds(invincibilityTime);
         isInvincible = false;
+        Debug.Log("Invincibility ended.");
     }
 }
