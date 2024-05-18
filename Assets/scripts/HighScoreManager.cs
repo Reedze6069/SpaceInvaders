@@ -3,11 +3,18 @@ using UnityEngine;
 [System.Serializable]
 public class HighScoreData
 {
-    public float bestTime;
+    [SerializeField]
+    private float bestTime; // Private variable
+
+    public float BestTime
+    {
+        get { return bestTime; }
+        private set { bestTime = value; }
+    }
 
     public HighScoreData(float time)
     {
-        bestTime = time;
+        BestTime = time;
     }
 }
 
@@ -33,8 +40,8 @@ public class HighScoreManager : MonoBehaviour
         if (!string.IsNullOrEmpty(json))
         {
             HighScoreData highScoreData = JsonUtility.FromJson<HighScoreData>(json);
-            Debug.Log($"High score loaded: {highScoreData.bestTime}s");
-            return highScoreData.bestTime;
+            Debug.Log($"High score loaded: {highScoreData.BestTime}s");
+            return highScoreData.BestTime;
         }
 
         Debug.Log("No high score data found.");
