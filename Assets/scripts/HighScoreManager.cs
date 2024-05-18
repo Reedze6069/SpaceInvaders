@@ -8,8 +8,8 @@ public class HighScoreData
 
     public float BestTime
     {
-        get { return bestTime; }
-        private set { bestTime = value; }
+        get => bestTime;
+        private set => bestTime = value;
     }
 
     public HighScoreData(float time)
@@ -20,31 +20,35 @@ public class HighScoreData
 
 public class HighScoreManager : MonoBehaviour
 {
-    private string highScoreKey = "HighScoreDataKey";
+    private const string HighScoreKey = "HighScoreDataKey";
 
     // Save high score data
     public void SaveHighScore(float time)
     {
-        HighScoreData highScoreData = new HighScoreData(time);
-        string json = JsonUtility.ToJson(highScoreData);
-        PlayerPrefs.SetString(highScoreKey, json);
+        PlayerPrefs.SetFloat(HighScoreKey, time);
         PlayerPrefs.Save();
-
         Debug.Log($"High score saved: {time}s");
     }
 
     // Load high score data
     public float LoadHighScore()
     {
-        string json = PlayerPrefs.GetString(highScoreKey, "");
-        if (!string.IsNullOrEmpty(json))
+        if (PlayerPrefs.HasKey(HighScoreKey))
         {
-            HighScoreData highScoreData = JsonUtility.FromJson<HighScoreData>(json);
-            Debug.Log($"High score loaded: {highScoreData.BestTime}s");
-            return highScoreData.BestTime;
+            float highScore = PlayerPrefs.GetFloat(HighScoreKey);
+            Debug.Log($"High score loaded: {highScore}s");
+            return highScore;
         }
 
         Debug.Log("No high score data found.");
         return 0f; // Default value if no high score is found
+    }
+
+    // Reset high score data (optional utility method)
+    public void ResetHighScore()
+    {
+        PlayerPrefs.DeleteKey(HighScoreKey);
+        PlayerPrefs.Save();
+        Debug.Log("High score reset.");
     }
 }

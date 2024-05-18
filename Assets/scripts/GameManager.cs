@@ -15,7 +15,6 @@ public class GameManager : MonoBehaviour
             Debug.Log($"Elapsed Time saved: {timer.ElapsedTime}s");
         }
 
-        // Save high score
         HighScoreManager highScoreManager = FindObjectOfType<HighScoreManager>();
         if (highScoreManager != null && timer != null)
         {
@@ -31,7 +30,6 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        // Start coroutine to load GameOverScene after a delay
         StartCoroutine(LoadGameOverSceneDelayed());
     }
 
@@ -49,13 +47,11 @@ public class GameManager : MonoBehaviour
         {
             if (gameObject.CompareTag("Player") || gameObject.CompareTag("StaticSprite"))
             {
-                // If the game object is a player or static sprite, initiate game over
                 Debug.Log("GameOver condition met for Player or StaticSprite.");
                 GameOver();
             }
             else
             {
-                // If the game object is not a player or static sprite, destroy it
                 Debug.Log($"Destroying GameObject: {gameObject.name}");
                 Destroy(gameObject);
             }
