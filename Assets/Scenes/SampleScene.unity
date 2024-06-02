@@ -1058,8 +1058,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4287561626
-  m_fontColor: {r: 0.6039216, g: 1, b: 0.5568628, a: 1}
+    rgba: 4288413600
+  m_fontColor: {r: 0.627318, g: 1, b: 0.6084906, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1142,8 +1142,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 657.2, y: -505.8}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 657.2, y: -469.6}
+  m_SizeDelta: {x: 250.8, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &694648502
 GameObject:
@@ -1238,7 +1238,7 @@ Transform:
   m_GameObject: {fileID: 711501588}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: 0.9999936, w: 0.0035780324}
-  m_LocalPosition: {x: -967.11, y: -532.25, z: -1.6941471}
+  m_LocalPosition: {x: -961.8, y: -532.25, z: -1.6941471}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1300,7 +1300,7 @@ Transform:
   m_GameObject: {fileID: 833427604}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: 0.9999936, w: 0.0035780324}
-  m_LocalPosition: {x: -967.7, y: -528.63, z: -1.6941471}
+  m_LocalPosition: {x: -963.8, y: -528.63, z: -1.6941471}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1643,7 +1643,7 @@ Transform:
   m_GameObject: {fileID: 1355790347}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: 0.9999936, w: 0.0035780324}
-  m_LocalPosition: {x: -966.5, y: -516.5, z: -1.6941471}
+  m_LocalPosition: {x: -964.6, y: -516.5, z: -1.6941471}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1949,8 +1949,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 45.74
-  m_fontSizeBase: 45.74
+  m_fontSize: 40
+  m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2016,7 +2016,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -478.89}
-  m_SizeDelta: {x: 200, y: 50}
+  m_SizeDelta: {x: 222, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1640122716
 GameObject:
@@ -2053,7 +2053,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -104, y: -70}
-  m_SizeDelta: {x: 200, y: 50}
+  m_SizeDelta: {x: 274.9, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1640122718
 MonoBehaviour:
@@ -2594,7 +2594,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1955681917022861332, guid: 94b71938d00cec4418744d4064db9901, type: 3}
       propertyPath: moveSpeed
-      value: 20
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 1955681917022861332, guid: 94b71938d00cec4418744d4064db9901, type: 3}
       propertyPath: maxProjectiles
